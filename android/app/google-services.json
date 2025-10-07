@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "570123519035",
+    "project_id": "ghalib-5fd11",
+    "storage_bucket": "ghalib-5fd11.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570123519035:android:6960a25a7f697fa55dc81e",
+        "android_client_info": {
+          "package_name": "com.example.cwt_starter_template"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnvHoLHYJ9veYzKGCd15_MVqn8GtjuIt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
