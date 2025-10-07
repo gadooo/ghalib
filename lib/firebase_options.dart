@@ -70,6 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '570123519035',
     projectId: 'ghalib-5fd11',
     storageBucket: 'ghalib-5fd11.firebasestorage.app',
+    iosClientId: '570123519035-7k919j2m9hd47qt5f78ssf2tok2vfhtp.apps.googleusercontent.com',
     iosBundleId: 'com.example.cwtStarterTemplate',
   );
+
 }
