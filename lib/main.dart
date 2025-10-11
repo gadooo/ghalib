@@ -25,7 +25,9 @@ Future<void> main() async {
   await Supabase.initialize(url: '', anonKey: '');
 
   /// -- README(Docs[2]) -- Initialize Firebase & Authentication Repository
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((_) => Get.put(AuthenticationRepository()));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ).then((_) => Get.put(AuthenticationRepository()));
 
   /// -- Main App Starts here (app.dart) ...
   runApp(const App());

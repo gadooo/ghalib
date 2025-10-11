@@ -27,14 +27,21 @@ class TProductCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = CartController.instance;
-    final salePercentage = ProductController.instance.calculateSalePercentage(product.price, product.salePrice);
+    final salePercentage = ProductController.instance.calculateSalePercentage(
+      product.price,
+      product.salePrice,
+    );
     final dark = THelperFunctions.isDarkMode(context);
+
+    // ✅ استخدم MediaQuery عشان تحدد العرض حسب حجم الشاشة
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = screenWidth * 0.45; // البطاقة تاخد 45% من عرض الشاشة
+    final imageHeight = cardWidth; // خلي الصورة مربعة
+
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailScreen(product: product)),
-
-      /// Container with side paddings, color, edges, radius and shadow.
       child: Container(
-        width: 180,
+        width: cardWidth,
         padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
           boxShadow: [TShadowStyle.verticalProductShadow],
@@ -46,14 +53,19 @@ class TProductCardVertical extends StatelessWidget {
           children: [
             /// Thumbnail, Wishlist Button, Discount Tag
             TRoundedContainer(
-              height: 180,
-              width: 180,
+              height: imageHeight,
+              width: cardWidth,
               padding: const EdgeInsets.all(TSizes.sm),
               backgroundColor: dark ? TColors.dark : TColors.white,
               child: Stack(
                 children: [
                   /// -- Thumbnail Image
-                  Center(child: TRoundedImage(imageUrl: product.thumbnail, applyImageRadius: true)),
+                  Center(
+                    child: TRoundedImage(
+                      imageUrl: product.thumbnail,
+                      applyImageRadius: true,
+                    ),
+                  ),
 
                   /// -- Sale Tag
                   if (salePercentage != null)
@@ -62,8 +74,16 @@ class TProductCardVertical extends StatelessWidget {
                       child: TRoundedContainer(
                         radius: TSizes.sm,
                         backgroundColor: TColors.primary.withValues(alpha: 0.8),
-                        padding: const EdgeInsets.symmetric(horizontal: TSizes.sm, vertical: TSizes.xs),
-                        child: Text('$salePercentage%', style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.black)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: TSizes.sm,
+                          vertical: TSizes.xs,
+                        ),
+                        child: Text(
+                          '$salePercentage%',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelLarge!.apply(color: TColors.black),
+                        ),
                       ),
                     ),
 
@@ -86,15 +106,17 @@ class TProductCardVertical extends StatelessWidget {
                 children: [
                   TProductTitleText(title: product.title, smallSize: true),
                   const SizedBox(height: TSizes.spaceBtwItems / 2),
-                  TBrandTitleWithVerifiedIcon(title: product.brand!.name, brandTextSize: TextSizes.small),
+                  TBrandTitleWithVerifiedIcon(
+                    title: product.brand?.name ?? 'Unknown',
+                    brandTextSize: TextSizes.small,
+                  ),
                 ],
               ),
             ),
 
-            /// Price & Add to cart button
-            /// Use Spacer() to utilize all the space and set the price and cart button at the bottom.
-            /// This usually happens when Product title is in single line or 2 lines (Max)
             const Spacer(),
+
+            /// Price & Add to cart button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -103,20 +125,24 @@ class TProductCardVertical extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// Actual Price if sale price not null
-                      if (product.productVariations == null && product.salePrice != null && product.salePrice! > 0)
+                      if (product.productVariations == null &&
+                          product.salePrice != null &&
+                          product.salePrice! > 0)
                         Padding(
                           padding: const EdgeInsets.only(left: TSizes.sm),
                           child: Text(
                             product.price.toString(),
-                            style: Theme.of(context).textTheme.labelMedium!.apply(decoration: TextDecoration.lineThrough),
+                            style: Theme.of(context).textTheme.labelMedium!
+                                .apply(decoration: TextDecoration.lineThrough),
                           ),
                         ),
-
-                      /// Price, Show sale price as main price if sale exist.
                       Padding(
                         padding: const EdgeInsets.only(left: TSizes.sm),
-                        child: TProductPriceText(price: ProductController.instance.getProductPrice(product)),
+                        child: TProductPriceText(
+                          price: ProductController.instance.getProductPrice(
+                            product,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -125,41 +151,55 @@ class TProductCardVertical extends StatelessWidget {
                 /// Add to cart
                 GestureDetector(
                   onTap: () {
-                    // If the product have variations then show the product Details for variation selection.
-                    // ELse add product to the cart.
                     if (product.productVariations == null) {
-                      cartController.addSingleItemToCart(product, ProductVariationModel.empty());
+                      cartController.addSingleItemToCart(
+                        product,
+                        ProductVariationModel.empty(),
+                      );
                     } else {
                       Get.to(() => ProductDetailScreen(product: product));
                     }
                   },
-                  child: Obx(
-                    () {
-                      final productQuantityInCart = cartController.calculateSingleProductCartEntries(product.id, '');
+                  child: Obx(() {
+                    final productQuantityInCart = cartController
+                        .calculateSingleProductCartEntries(product.id, '');
 
-                      return AnimatedContainer(
-                        curve: Curves.easeInOutCubicEmphasized,
-                        decoration: BoxDecoration(
-                          color: productQuantityInCart > 0 ? TColors.dashboardAppbarBackground : TColors.dark,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(TSizes.cardRadiusMd),
-                            bottomRight: Radius.circular(TSizes.productImageRadius),
+                    return AnimatedContainer(
+                      curve: Curves.easeInOutCubicEmphasized,
+                      decoration: BoxDecoration(
+                        color:
+                            productQuantityInCart > 0
+                                ? TColors.dashboardAppbarBackground
+                                : TColors.dark,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(TSizes.cardRadiusMd),
+                          bottomRight: Radius.circular(
+                            TSizes.productImageRadius,
                           ),
                         ),
-                        duration: const Duration(milliseconds: 300),
-                        child: SizedBox(
-                          width: TSizes.iconLg * 1.2,
-                          height: TSizes.iconLg * 1.2,
-                          child: Center(
-                            child: productQuantityInCart > 0
-                                ? Text(productQuantityInCart.toString(),
-                                    style: Theme.of(context).textTheme.bodyLarge!.apply(color: TColors.white))
-                                : const Icon(Iconsax.add, color: TColors.white),
-                          ),
+                      ),
+                      duration: const Duration(milliseconds: 300),
+                      child: SizedBox(
+                        width: TSizes.iconLg * 1.2,
+                        height: TSizes.iconLg * 1.2,
+                        child: Center(
+                          child:
+                              productQuantityInCart > 0
+                                  ? Text(
+                                    productQuantityInCart.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .apply(color: TColors.white),
+                                  )
+                                  : const Icon(
+                                    Iconsax.add,
+                                    color: TColors.white,
+                                  ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  }),
                 ),
               ],
             ),
