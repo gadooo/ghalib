@@ -1,4 +1,3 @@
-import 'package:cwt_starter_template/features/authentication/screens/login/login_screen.dart';
 import 'package:cwt_starter_template/utils/constants/image_strings.dart';
 import 'package:cwt_starter_template/utils/constants/sizes.dart';
 import 'package:cwt_starter_template/utils/constants/text_strings.dart';
@@ -50,8 +49,16 @@ class ResetPassword extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Get.to(() => const LoginScreen()),
+                  onPressed: () => {},
                   child: Text(TTexts.done),
+                ),
+              ),
+              SizedBox(height: TSizes.spaceBtwItems),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () => Get.to(() {}),
+                  child: Text(TTexts.resendEmail),
                 ),
               ),
             ],
