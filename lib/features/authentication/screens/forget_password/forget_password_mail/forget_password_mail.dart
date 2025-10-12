@@ -1,4 +1,6 @@
+import 'package:cwt_starter_template/features/authentication/screens/forget_password/reset_password/reset_password.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../common/widgets/form/form_header_widget.dart';
 import '../../../../../../utils/constants/colors.dart';
@@ -36,9 +38,23 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                 Form(
                   child: Column(
                     children: [
-                      TextFormField(decoration: const InputDecoration(label: Text(TTexts.tEmail), hintText: TTexts.tEmail, prefixIcon: Icon(Icons.mail_outline_rounded))),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text(TTexts.tEmail),
+                          hintText: TTexts.tEmail,
+                          prefixIcon: Icon(Icons.mail_outline_rounded),
+                        ),
+                      ),
                       const SizedBox(height: 20.0),
-                      SizedBox(width: double.infinity, child: ElevatedButton(onPressed: () {}, child: const Text(TTexts.tNext))),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.to(() => const ResetPassword());
+                          },
+                          child: const Text(TTexts.tNext),
+                        ),
+                      ),
                     ],
                   ),
                 ),
