@@ -33,8 +33,19 @@ class TProductImageSlider extends StatelessWidget {
                 padding: const EdgeInsets.all(TSizes.defaultSpace * 2),
                 child: Center(
                   child: Obx(() {
-                    final image = controller.selectedProductImage.value.isEmpty ? product.thumbnail : controller.selectedProductImage.value;
-                    return GestureDetector(onTap: () => controller.showEnlargedImage(image), child: Image(image: AssetImage(image), fit: BoxFit.contain));
+                    final image =
+                        controller.selectedProductImage.value.isEmpty
+                            ? product.thumbnail
+                            : controller.selectedProductImage.value;
+                    return GestureDetector(
+                      onTap: () => controller.showEnlargedImage(image),
+                      child: TRoundedImage(
+                        isNetworkImage: true,
+                        imageUrl: image,
+                        fit: BoxFit.contain,
+                        borderRadius: TSizes.productImageRadius,
+                      ),
+                    );
                   }),
                 ),
               ),
@@ -52,18 +63,30 @@ class TProductImageSlider extends StatelessWidget {
                   itemCount: images.length,
                   scrollDirection: Axis.horizontal,
                   physics: const AlwaysScrollableScrollPhysics(),
-                  separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceBtwItems),
+                  separatorBuilder:
+                      (_, __) => const SizedBox(width: TSizes.spaceBtwItems),
                   itemBuilder: (_, index) {
                     return Obx(() {
-                      final imageSelected = controller.selectedProductImage.value == images[index];
+                      final imageSelected =
+                          controller.selectedProductImage.value ==
+                          images[index];
                       return TRoundedImage(
+                        isNetworkImage: true,
                         width: 80,
                         fit: BoxFit.contain,
                         imageUrl: images[index],
                         padding: const EdgeInsets.all(TSizes.sm),
                         backgroundColor: isDark ? TColors.dark : TColors.white,
-                        onPressed: () => controller.selectedProductImage.value = images[index],
-                        border: Border.all(color: imageSelected ? TColors.primary : Colors.transparent),
+                        onPressed:
+                            () =>
+                                controller.selectedProductImage.value =
+                                    images[index],
+                        border: Border.all(
+                          color:
+                              imageSelected
+                                  ? TColors.primary
+                                  : Colors.transparent,
+                        ),
                       );
                     });
                   },
@@ -72,8 +95,12 @@ class TProductImageSlider extends StatelessWidget {
             ),
 
             /// Appbar Icons
-            TAppBar(showBackArrow: true, 
-                actions: [TFavouriteIcon(productId: product.id)], showActions: true, showSkipButton: false,),
+            TAppBar(
+              showBackArrow: true,
+              actions: [TFavouriteIcon(productId: product.id)],
+              showActions: true,
+              showSkipButton: false,
+            ),
           ],
         ),
       ),

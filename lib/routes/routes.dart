@@ -3,7 +3,7 @@
 class TRoutes {
   static const welcome = '/welcome-screen';
   static const onboarding = '/onboarding-screen';
-  static const coursesDashboard = '/courses-dashboard-screen';
+  // static const coursesDashboard = '/courses-dashboard-screen';
   static const eComDashboard = '/eCom-dashboard-screen';
 
   static const logIn = '/log-in';

@@ -62,6 +62,7 @@ class TProductCardVertical extends StatelessWidget {
                   /// -- Thumbnail Image
                   Center(
                     child: TRoundedImage(
+                      isNetworkImage: true,
                       imageUrl: product.thumbnail,
                       applyImageRadius: true,
                     ),

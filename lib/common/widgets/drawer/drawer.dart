@@ -24,7 +24,8 @@ class TDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final userController = UserController.instance;
     final networkImage = userController.user.value.profilePicture;
-    final image = networkImage.isNotEmpty ? networkImage : TImages.tProfileImage;
+    final image =
+        networkImage.isNotEmpty ? networkImage : TImages.tProfileImage;
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -39,15 +40,30 @@ class TDrawer extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Profile image
-                  TRoundedImage(width: 60, height: 60, isNetworkImage: networkImage.isNotEmpty, fit: BoxFit.fill, imageUrl: image, borderRadius: 50),
+                  TRoundedImage(
+                    width: 60,
+                    height: 60,
+                    isNetworkImage: networkImage.isNotEmpty,
+                    fit: BoxFit.fill,
+                    imageUrl: image,
+                    borderRadius: 50,
+                  ),
                   const SizedBox(height: 16),
                   // Name
                   Text(
                     userController.user.value.fullName,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: TColors.dark),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: TColors.dark,
+                    ),
                   ),
                   // Email
-                  Text(userController.user.value.email, style: Theme.of(context).textTheme.bodyMedium!.apply(color: TColors.dark)),
+                  Text(
+                    userController.user.value.email,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium!.apply(color: TColors.dark),
+                  ),
                 ],
               ),
             ),
@@ -69,18 +85,48 @@ class TDrawer extends StatelessWidget {
   /// Each item includes an icon, title, and an optional subtitle.
   List<Widget> _drawerItems() {
     return [
-      _buildDrawerItem(icon: Iconsax.user, title: "Profile", onTap: () => Get.toNamed(TRoutes.profileScreen)),
-      _buildDrawerItem(icon: Iconsax.home, title: "E-Commerce Dashboard", onTap: () => Get.toNamed(TRoutes.eComDashboard)),
-      _buildDrawerItem(icon: Iconsax.shopping_cart, title: "Cart", onTap: () => Get.toNamed(TRoutes.cartScreen)),
-      _buildDrawerItem(icon: Iconsax.shopping_bag, title: "Checkout", onTap: () => Get.toNamed(TRoutes.checkoutScreen)),
-      _buildDrawerItem(icon: Iconsax.heart, title: "Wishlist", onTap: () => Get.toNamed(TRoutes.favouritesScreen)),
+      _buildDrawerItem(
+        icon: Iconsax.user,
+        title: "Profile",
+        onTap: () => Get.toNamed(TRoutes.profileScreen),
+      ),
+      _buildDrawerItem(
+        icon: Iconsax.home,
+        title: "E-Commerce Dashboard",
+        onTap: () => Get.toNamed(TRoutes.eComDashboard),
+      ),
+      _buildDrawerItem(
+        icon: Iconsax.shopping_cart,
+        title: "Cart",
+        onTap: () => Get.toNamed(TRoutes.cartScreen),
+      ),
+      _buildDrawerItem(
+        icon: Iconsax.shopping_bag,
+        title: "Checkout",
+        onTap: () => Get.toNamed(TRoutes.checkoutScreen),
+      ),
+      _buildDrawerItem(
+        icon: Iconsax.heart,
+        title: "Wishlist",
+        onTap: () => Get.toNamed(TRoutes.favouritesScreen),
+      ),
     ];
   }
 
   /// Helper method to build a drawer menu item.
   ///
   /// The item includes an icon, title, and an optional subtitle.
-  Widget _buildDrawerItem({required IconData icon, required String title, String? subtitle, VoidCallback? onTap}) {
-    return ListTile(leading: Icon(icon), title: Text(title), subtitle: subtitle != null ? Text(subtitle) : null, onTap: onTap);
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    VoidCallback? onTap,
+  }) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: subtitle != null ? Text(subtitle) : null,
+      onTap: onTap,
+    );
   }
 }

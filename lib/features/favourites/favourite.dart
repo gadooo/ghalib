@@ -18,24 +18,32 @@ class FavouriteScreen extends StatelessWidget {
     return Scaffold(
       appBar: TEComAppBar(
         showBackArrow: true,
-        title: Text('Wishlist', style: Theme.of(context).textTheme.headlineMedium),
-        actions: [TCircularIcon(icon: Iconsax.add, onPressed: () => Get.to(() => const CoursesDashboard()))],
+        title: Text(
+          'Wishlist',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        // actions: [TCircularIcon(icon: Iconsax.add, onPressed: () => Get.to(() => const CoursesDashboard()))],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Column(
             children: [
-
               /// Products Grid
               Obx(() {
                 final products = ProductController.instance.favoriteProducts();
                 return TGridLayout(
                   itemCount: products.length,
-                  itemBuilder: (_, index) => TProductCardVertical(product: products[index]),
+                  itemBuilder:
+                      (_, index) =>
+                          TProductCardVertical(product: products[index]),
                 );
               }),
-              SizedBox(height: TDeviceUtils.getBottomNavigationBarHeight() + TSizes.defaultSpace),
+              SizedBox(
+                height:
+                    TDeviceUtils.getBottomNavigationBarHeight() +
+                    TSizes.defaultSpace,
+              ),
             ],
           ),
         ),

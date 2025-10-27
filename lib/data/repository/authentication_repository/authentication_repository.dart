@@ -1,4 +1,5 @@
 import 'package:cwt_starter_template/features/authentication/screens/on_boarding/on_boarding_screen.dart';
+import 'package:cwt_starter_template/features/dashboard/ecommerce/screens/home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,7 +71,7 @@ class AuthenticationRepository extends GetxController {
           idTokenResult.claims?['admin'] == true) {
         // Initialize User Specific Storage
         await TLocalStorage.init(user.uid);
-        Get.offAll(() => const CoursesDashboard());
+        Get.offAll(() => const HomeScreen());
       } else {
         Get.offAll(() => VerifyEmailScreen(email: getUserEmail));
       }

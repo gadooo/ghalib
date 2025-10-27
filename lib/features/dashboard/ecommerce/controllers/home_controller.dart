@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import '../../../products/models/product_model.dart';
 import '../models/category_model.dart';
@@ -14,18 +15,58 @@ class HomeController extends GetxController {
   }
 
   List<CategoryModel> getFeaturedCategories() {
-    final categoryController=Get.put(CategoryController());
+    final categoryController = Get.put(CategoryController());
     return categoryController.getFeaturedCategories(8);
   }
 
-  List<ProductModel> getFeaturedProducts() {
-    // Get Featured Products from your data source
-    return TDummyData.products.where((product) => product.isFeatured ?? false).take(6).toList();
+  // List<ProductModel> getFeaturedProducts() {
+  //   // Get Featured Products from your data source
+
+  //   return TDummyData.products
+  //       .where((product) => product.isFeatured ?? false)
+  //       .take(6)
+  //       .toList();
+  // }
+
+  Future<List<ProductModel>> getFeaturedProducts() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance
+              .collection('products')
+              .where('isFeatured', isEqualTo: true)
+              .limit(6)
+              .get();
+
+      return snapshot.docs
+          .map((doc) => ProductModel.fromMap(doc.data(), doc.id))
+          .toList();
+    } catch (e) {
+      print("Error fetching featured products: $e");
+      return [];
+    }
   }
 
-  List<ProductModel> getPopularProducts() {
-    // Get Popular Products from your data source
-    // Currently, I'm just taking last 4 products
-    return TDummyData.products.sublist(TDummyData.products.length - 4).toList();
+  // List<ProductModel> getPopularProducts() {
+  //   // Get Popular Products from your data source
+  //   // Currently, I'm just taking last 4 products
+  //   return TDummyData.products.sublist(TDummyData.products.length - 4).toList();
+  // }
+
+  Future<List<ProductModel>> getPopularProducts() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance
+              .collection('products')
+              .where('isFeatured', isEqualTo: true)
+              .limit(6)
+              .get();
+
+      return snapshot.docs
+          .map((doc) => ProductModel.fromMap(doc.data(), doc.id))
+          .toList();
+    } catch (e) {
+      print("Error fetching featured products: $e");
+      return [];
+    }
   }
 }

@@ -58,7 +58,13 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// -- Promo Slider 1
-                  const TPromoSlider(banners: [TImages.promoBanner1, TImages.promoBanner2, TImages.promoBanner3]),
+                  const TPromoSlider(
+                    banners: [
+                      TImages.promoBanner1,
+                      TImages.promoBanner2,
+                      TImages.promoBanner3,
+                    ],
+                  ),
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   /// -- Popular Products
@@ -68,18 +74,59 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {},
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
-                  TGridLayout(itemCount: featuredProducts.length, itemBuilder: (_, index) => TProductCardVertical(product: featuredProducts[index])),
+                  FutureBuilder(
+                    future: featuredProducts,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return TGridLayout(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder:
+                              (_, index) => TProductCardVertical(
+                                product: snapshot.data![index],
+                              ),
+                        );
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                  ),
                   const SizedBox(height: TSizes.spaceBtwSections * 2),
 
                   /// -- Promo Slider 2
-                  const TPromoSlider(banners: [TImages.banner2, TImages.banner3, TImages.banner4]),
+                  const TPromoSlider(
+                    banners: [
+                      TImages.banner2,
+                      TImages.banner3,
+                      TImages.banner4,
+                    ],
+                  ),
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   /// -- Popular Products
-                  TSectionHeading(title: TTexts.popularProducts, onPressed: () {}),
+                  TSectionHeading(
+                    title: TTexts.popularProducts,
+                    onPressed: () {},
+                  ),
                   const SizedBox(height: TSizes.spaceBtwItems),
-                  TGridLayout(itemCount: popularProducts.length, itemBuilder: (_, index) => TProductCardVertical(product: popularProducts[index])),
-                  SizedBox(height: TDeviceUtils.getBottomNavigationBarHeight() + TSizes.defaultSpace),
+                  FutureBuilder(
+                    future: popularProducts,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return TGridLayout(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder:
+                              (_, index) => TProductCardVertical(
+                                product: snapshot.data![index],
+                              ),
+                        );
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                  ),
+                  SizedBox(
+                    height:
+                        TDeviceUtils.getBottomNavigationBarHeight() +
+                        TSizes.defaultSpace,
+                  ),
                 ],
               ),
             ),
